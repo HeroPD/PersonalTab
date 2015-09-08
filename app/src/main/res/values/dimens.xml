@@ -1,0 +1,4 @@
+<resources>
+
+    <dimen name="tabSelectorHeight">2dp</dimen>
+</resources>
