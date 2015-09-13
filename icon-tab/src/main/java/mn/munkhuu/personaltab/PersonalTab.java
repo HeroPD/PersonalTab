@@ -5,10 +5,12 @@ import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 /**
  * Copyright (c) 2015 Munkhuu
@@ -44,7 +46,7 @@ public class PersonalTab implements View.OnClickListener , View.OnTouchListener{
     private PersonalTabSelected selectListener;
     private View tabView;
     private ImageView icon;
-    private ImageView selector;
+    private LinearLayout selector;
     private MaterialRippleLayout background;
 
     private Drawable iconDrawable;
@@ -57,7 +59,6 @@ public class PersonalTab implements View.OnClickListener , View.OnTouchListener{
 
     private int position;
     private boolean active;
-    private PersonalTabListener listener;
 
 
     public PersonalTab(Context ctx){
@@ -69,13 +70,13 @@ public class PersonalTab implements View.OnClickListener , View.OnTouchListener{
 
             icon = (ImageView) tabView.findViewById(R.id.icon);
             background = (MaterialRippleLayout) tabView.findViewById(R.id.reveal);
-            selector = (ImageView) tabView.findViewById(R.id.selector);
+            selector = (LinearLayout) tabView.findViewById(R.id.indicator);
 
         }else{
 
             tabView = LayoutInflater.from(ctx).inflate(R.layout.tab_icon, null);
             icon = (ImageView) tabView.findViewById(R.id.icon);
-            selector = (ImageView) tabView.findViewById(R.id.selector);
+            selector = (LinearLayout) tabView.findViewById(R.id.indicator);
 
         }
 
@@ -87,10 +88,6 @@ public class PersonalTab implements View.OnClickListener , View.OnTouchListener{
 
         iconColor = Color.BLACK;
         active = false;
-    }
-
-    public void setTabListener(PersonalTabListener listener){
-        this.listener = listener;
     }
 
     public void setSelectListener(PersonalTabSelected listener){
@@ -113,6 +110,10 @@ public class PersonalTab implements View.OnClickListener , View.OnTouchListener{
             tabView.setBackgroundColor(color);
         }
 
+    }
+
+    public LinearLayout getSelector(){
+        return selector;
     }
 
     public void setIconColor(int color)
@@ -188,18 +189,6 @@ public class PersonalTab implements View.OnClickListener , View.OnTouchListener{
             selectListener.seleted(this.position);
         }
 
-        if(listener != null) {
-
-            if(active) {
-                listener.onTabReselected(this);
-            }
-            else {
-                listener.onTabSelected(this);
-            }
-        }
-
-        if(!active)
-            this.selectTab();
     }
 
     @Override

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.util.AttributeSet;
-import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 
 import java.util.ArrayList;
@@ -40,7 +39,7 @@ public class PersonalTabHost extends LinearLayout implements PersonalTab.Persona
     private int primaryColor;
     private int accentColor;
     private int iconColor;
-    private int textColor;
+    private float indicatorHeight;
     private List<PersonalTab> tabs;
     private PersonalTabListener listener;
     private int currentTab;
@@ -64,7 +63,8 @@ public class PersonalTabHost extends LinearLayout implements PersonalTab.Persona
                 primaryColor = a.getColor(R.styleable.MaterialTabHost_primaryColor, Color.parseColor("#009688"));
                 accentColor = a.getColor(R.styleable.MaterialTabHost_accentColor,Color.parseColor("#00b0ff"));
                 iconColor = a.getColor(R.styleable.MaterialTabHost_iconColor,Color.WHITE);
-                textColor = a.getColor(R.styleable.MaterialTabHost_textColor,Color.WHITE);
+                indicatorHeight = a.getDimension(R.styleable.MaterialTabHost_indicatorHeight, 2.0f);
+
             } finally {
                 a.recycle();
             }
@@ -110,9 +110,9 @@ public class PersonalTabHost extends LinearLayout implements PersonalTab.Persona
         tab.setAccentColor(accentColor);
         tab.setPrimaryColor(primaryColor);
         tab.setIconColor(iconColor);
-        tab.setTabListener(this.listener);
         tab.setPosition(tabs.size());
         tab.setSelectListener(this);
+        tab.getSelector().getLayoutParams().height = Utils.dpToPx(getResources(), indicatorHeight);
         tabs.add(tab);
     }
 
@@ -125,10 +125,26 @@ public class PersonalTabHost extends LinearLayout implements PersonalTab.Persona
                 PersonalTab tab = tabs.get(i);
 
                 if(i == position) {
+                    if (listener != null){
+
+                        if (tab.isSelected()){
+                            listener.onTabReselected(tab);
+                        }else{
+                            listener.onTabSelected(tab);
+                        }
+
+                    }
                     tab.selectTab();
+
                 }
                 else {
+                    if (listener != null){
+                        if (tab.isSelected()){
+                            listener.onTabUnselected(tab);
+                        }
+                    }
                     tabs.get(i).deSelectTab();
+
                 }
             }
 
@@ -149,7 +165,7 @@ public class PersonalTabHost extends LinearLayout implements PersonalTab.Persona
         this.removeAllViews();
 
         int tabWidth = this.getWidth() / tabs.size();
-        LayoutParams params = new LayoutParams(tabWidth, HorizontalScrollView.LayoutParams.MATCH_PARENT);
+        LayoutParams params = new LayoutParams(tabWidth,    LayoutParams.MATCH_PARENT);
         for (PersonalTab t : tabs) {
             this.addView(t.getTabView(), params);
         }

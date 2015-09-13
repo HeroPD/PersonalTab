@@ -9,6 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         app:primaryColor="#009688"
-        app:accentColor="#ffc400"/>
+        app:accentColor="#ffc400"
+        app:indicatorHeight="2dp"/>
 
 </RelativeLayout>

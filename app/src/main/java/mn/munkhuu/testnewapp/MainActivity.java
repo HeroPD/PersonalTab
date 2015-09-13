@@ -2,6 +2,7 @@ package mn.munkhuu.testnewapp;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -19,12 +20,11 @@ public class MainActivity extends AppCompatActivity implements PersonalTabListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         tabHost = (PersonalTabHost) findViewById(R.id.tabHost);
-
+        tabHost.setPersonalTabListener(this);
 
         for (int i = 0; i < 4; i++) {
             PersonalTab tab = tabHost.newTab();
             tab.setIcon(getResources().getDrawable(android.support.v7.appcompat.R.drawable.abc_ic_menu_share_mtrl_alpha));
-            tab.setTabListener(this);
             tabHost.addTab(tab);
         }
 
@@ -54,16 +54,18 @@ public class MainActivity extends AppCompatActivity implements PersonalTabListen
 
     @Override
     public void onTabSelected(PersonalTab tab) {
-
+        Log.d("TEST","SELECT"+tab.getPosition());
     }
 
     @Override
     public void onTabReselected(PersonalTab tab) {
+        Log.d("TEST","RESELECTED"+tab.getPosition());
 
     }
 
     @Override
     public void onTabUnselected(PersonalTab tab) {
+        Log.d("TEST","UNSELECT"+tab.getPosition());
 
     }
 }
