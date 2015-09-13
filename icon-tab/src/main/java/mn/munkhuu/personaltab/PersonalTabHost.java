@@ -125,16 +125,27 @@ public class PersonalTabHost extends LinearLayout implements PersonalTab.Persona
                 PersonalTab tab = tabs.get(i);
 
                 if(i == position) {
+
+                    boolean selected = false ;
+
                     if (listener != null){
 
                         if (tab.isSelected()){
-                            listener.onTabReselected(tab);
+                            selected = true;
+
                         }else{
-                            listener.onTabSelected(tab);
+                            selected = false;
+
                         }
 
                     }
                     tab.selectTab();
+
+                    if (selected){
+                        listener.onTabReselected(tab);
+                    }else{
+                        listener.onTabSelected(tab);
+                    }
 
                 }
                 else {
@@ -143,7 +154,7 @@ public class PersonalTabHost extends LinearLayout implements PersonalTab.Persona
                             listener.onTabUnselected(tab);
                         }
                     }
-                    tabs.get(i).deSelectTab();
+                    tab.deSelectTab();
 
                 }
             }
