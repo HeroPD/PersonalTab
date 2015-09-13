@@ -31,8 +31,6 @@ public interface PersonalTabListener {
 
     void onTabSelected(PersonalTab tab);
 
-    void onTabReselected(PersonalTab tab);
-
     void onTabUnselected(PersonalTab tab);
 
 }

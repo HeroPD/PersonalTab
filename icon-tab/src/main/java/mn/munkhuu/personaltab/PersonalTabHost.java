@@ -130,7 +130,7 @@ public class PersonalTabHost extends LinearLayout implements PersonalTab.Persona
 
                     if (listener != null){
 
-                        if (tab.isSelected()){
+                        if (!tab.isSelected()){
                             selected = true;
 
                         }else{
@@ -142,8 +142,6 @@ public class PersonalTabHost extends LinearLayout implements PersonalTab.Persona
                     tab.selectTab();
 
                     if (selected){
-                        listener.onTabReselected(tab);
-                    }else{
                         listener.onTabSelected(tab);
                     }
 
